@@ -37,10 +37,15 @@ export default function Home() {
       backgroundColor: '#f3f4f6',
       fontFamily: "system-ui, -apple-system, sans-serif",
       color: '#111827',
-      paddingBottom: '80px',
-      colorScheme: 'light'
+      paddingBottom: '90px'
     }}>
-      {/* Header Corporativo YPF */}
+      <style>{`
+        * { box-sizing: border-box; }
+        body { background-color: #f3f4f6 !important; color: #111827 !important; margin: 0; }
+        h1, h2, h3, p, span, strong { color: inherit; }
+      `}</style>
+
+      {/* Header Corporativo */}
       <header style={{
         backgroundColor: '#002b5c',
         color: '#ffffff',
@@ -58,11 +63,11 @@ export default function Home() {
           }}>YPF FULL</span>
           <h1 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#ffffff' }}>Smart Maintenance</h1>
         </div>
-        <p style={{ margin: '0 0 12px 0', opacity: 0.9, fontSize: '12px', color: '#e5e7eb' }}>
+        <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#e5e7eb' }}>
           Service Design & Tablero Operativo
         </p>
 
-        {/* Resumen KPIs */}
+        {/* KPIs */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
           <div style={{
             backgroundColor: sectoresCriticos > 0 ? '#7f1d1d' : '#064e3b',
@@ -90,11 +95,11 @@ export default function Home() {
       {/* Contenido Principal */}
       <main style={{ padding: '16px', maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* Pestañas de Selección */}
+        {/* Selector de Pestañas */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          backgroundColor: '#e5e7eb',
+          backgroundColor: '#d1d5db',
           borderRadius: '8px',
           padding: '3px',
           marginBottom: '20px'
@@ -106,7 +111,7 @@ export default function Home() {
               border: 'none',
               borderRadius: '6px',
               backgroundColor: activeTab === 'limpieza' ? '#00529b' : 'transparent',
-              color: activeTab === 'limpieza' ? '#ffffff' : '#374151',
+              color: activeTab === 'limpieza' ? '#ffffff' : '#1f2937',
               fontWeight: '700',
               cursor: 'pointer',
               fontSize: '13px'
@@ -121,7 +126,7 @@ export default function Home() {
               border: 'none',
               borderRadius: '6px',
               backgroundColor: activeTab === 'insumos' ? '#00529b' : 'transparent',
-              color: activeTab === 'insumos' ? '#ffffff' : '#374151',
+              color: activeTab === 'insumos' ? '#ffffff' : '#1f2937',
               fontWeight: '700',
               cursor: 'pointer',
               fontSize: '13px'
