@@ -1,266 +1,292 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-interface Task {
-  id: number;
-  text: string;
-  category: 'UX' | 'Dev' | 'General';
-  completed: boolean;
+interface Zone {
+  id: string;
+  name: string;
+  peopleCount: number;
+  threshold: number;
+  status: 'OK' | 'CRÍTICO';
 }
 
-export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, text: 'Definir arquetipo de usuario persona', category: 'UX', completed: true },
-    { id: 2, text: 'Realizar pruebas de usabilidad del MVP', category: 'UX', completed: false },
-    { id: 3, text: 'Desplegar aplicación en Webflow Cloud', category: 'Dev', completed: true },
-    { id: 4, text: 'Revisar feedback visual y microinteracciones', category: 'UX', completed: false },
+interface Supply {
+  id: string;
+  name: string;
+  stockPercentage: number;
+}
+
+export default function SmartFullDashboard() {
+  const [activeTab, setActiveTab] = useState<'SECTORES' | 'INSUMOS'>('SECTORES');
+
+  // Estado de monitoreo de zonas en tiempo real
+  const [zones, setZones] = useState<Zone[]>([
+    { id: '1', name: 'Área Mesas Principal', peopleCount: 52, threshold: 50, status: 'CRÍTICO' },
+    { id: '2', name: 'Estación Autoservicio Café', peopleCount: 18, threshold: 40, status: 'OK' },
+    { id: '3', name: 'Barra Cajas / Pedidos', peopleCount: 35, threshold: 45, status: 'OK' },
   ]);
-  const [newTaskText, setNewTaskText] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<'UX' | 'Dev' | 'General'>('UX');
-  const [filter, setFilter] = useState<'All' | 'UX' | 'Dev' | 'General'>('All');
 
-  const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(t => t.completed).length;
-  const progressPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  // Estado de stock de insumos
+  const [supplies, setSupplies] = useState<Supply[]>([
+    { id: '1', name: 'Servilletas', stockPercentage: 85 },
+    { id: '2', name: 'Azúcar / Edulcorante', stockPercentage: 15 },
+    { id: '3', name: 'Leche (Heladera)', stockPercentage: 40 },
+  ]);
 
-  const handleAddTask = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTaskText.trim()) return;
-
-    const newTask: Task = {
-      id: Date.now(),
-      text: newTaskText,
-      category: selectedCategory,
-      completed: false,
-    };
-
-    setTasks([...tasks, newTask]);
-    setNewTaskText('');
+  // Simulación de sensor/tráfico de personas
+  const simulateTraffic = (zoneId: string, increment: number) => {
+    setZones(prev => prev.map(z => {
+      if (z.id === zoneId) {
+        const newCount = Math.max(0, z.peopleCount + increment);
+        return {
+          ...z,
+          peopleCount: newCount,
+          status: newCount >= z.threshold ? 'CRÍTICO' : 'OK'
+        };
+      }
+      return z;
+    }));
   };
 
-  const toggleTask = (id: number) => {
-    setTasks(tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
+  // Reset de limpieza realizada
+  const resetZone = (zoneId: string) => {
+    setZones(prev => prev.map(z => z.id === zoneId ? { ...z, peopleCount: 0, status: 'OK' } : z));
   };
 
-  const deleteTask = (id: number) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  // Actualización manual de stock
+  const updateStock = (supplyId: string, delta: number) => {
+    setSupplies(prev => prev.map(s => {
+      if (s.id === supplyId) {
+        const newVal = Math.min(100, Math.max(0, s.stockPercentage + delta));
+        return { ...s, stockPercentage: newVal };
+      }
+      return s;
+    }));
   };
 
-  const filteredTasks = tasks.filter(task => {
-    if (filter === 'All') return true;
-    return task.category === filter;
-  });
+  // Lógica de estado de stock
+  const getStockStatus = (pct: number) => {
+    if (pct < 25) return { status: 'CRÍTICO', action: '⚠️ REPOSICIÓN INMEDIATA', color: '#ef4444' };
+    if (pct < 50) return { status: 'MEDIO', action: '⚡ PREPARAR REPOSICIÓN', color: '#f59e0b' };
+    return { status: 'OK', action: 'No requiere acción', color: '#22c55e' };
+  };
 
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0f172a',
+      backgroundColor: '#0a0f1d',
       color: '#f8fafc',
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
       padding: '2rem 1rem'
     }}>
-      <div style={{ maxWidth: '650px', width: '100%' }}>
-        {/* Header */}
-        <header style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '850px', margin: '0 auto' }}>
+        
+        {/* Header YPF Full */}
+        <header style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          backgroundColor: '#1e293b',
+          padding: '1.25rem 1.5rem',
+          borderRadius: '1rem',
+          border: '1px solid #334155',
+          marginBottom: '1.5rem'
+        }}>
+          <div>
+            <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#38bdf8', letterSpacing: '0.1em' }}>
+              YPF FULL • SERVICE DESIGN & UX
+            </span>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: '800', margin: '0.25rem 0 0 0' }}>
+              Smart-Maintenance Dashboard
+            </h1>
+          </div>
           <span style={{
-            fontSize: '0.85rem',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: '#38bdf8',
-            fontWeight: '600',
-            backgroundColor: 'rgba(56, 189, 248, 0.1)',
-            padding: '0.25rem 0.75rem',
-            borderRadius: '9999px'
+            backgroundColor: '#0284c7',
+            padding: '0.4rem 0.8rem',
+            borderRadius: '0.5rem',
+            fontSize: '0.8rem',
+            fontWeight: '700'
           }}>
-            MVP Fullstack • Experiencia de Usuario
+            Staff App MVP
           </span>
-          <h1 style={{ fontSize: '2.25rem', fontWeight: '800', marginTop: '0.75rem', marginBottom: '0.5rem' }}>
-            FlowTask UX
-          </h1>
-          <p style={{ color: '#94a3b8', fontSize: '1rem' }}>
-            Gestión de tareas con feedback visual directo y microinteracciones de usabilidad.
-          </p>
         </header>
 
-        {/* UX Card: Progress */}
-        <div style={{
-          backgroundColor: '#1e293b',
-          borderRadius: '1rem',
-          padding: '1.5rem',
-          marginBottom: '1.5rem',
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
-          border: '1px solid #334155'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.1rem', fontWeight: '600', margin: 0 }}>Progreso Diario</h2>
-              <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0 }}>
-                {completedTasks} de {totalTasks} tareas completadas
-              </p>
-            </div>
-            <span style={{ fontSize: '1.5rem', fontWeight: '800', color: progressPercentage === 100 ? '#4ade80' : '#38bdf8' }}>
-              {progressPercentage}%
-            </span>
-          </div>
-
-          {/* Bar container */}
-          <div style={{ width: '100%', height: '10px', backgroundColor: '#334155', borderRadius: '5px', overflow: 'hidden' }}>
-            <div style={{
-              width: `${progressPercentage}%`,
-              height: '100%',
-              backgroundColor: progressPercentage === 100 ? '#4ade80' : '#38bdf8',
-              transition: 'width 0.4s ease-in-out, background-color 0.4s ease'
-            }} />
-          </div>
-          
-          <p style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '0.75rem', fontStyle: 'italic', textAlign: 'center' }}>
-            {progressPercentage === 100 ? '🎉 ¡Felicidades! Completaste todas las tareas programadas.' : '💡 Tip UX: Mantené el enfoque completando una tarea a la vez.'}
-          </p>
-        </div>
-
-        {/* Input Form */}
-        <form onSubmit={handleAddTask} style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-          <input
-            type="text"
-            placeholder="Escribí una nueva tarea..."
-            value={newTaskText}
-            onChange={(e) => setNewTaskText(e.target.value)}
+        {/* NAVEGACIÓN PESTAÑAS */}
+        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          <button
+            onClick={() => setActiveTab('SECTORES')}
             style={{
-              flex: '1',
-              minWidth: '200px',
-              padding: '0.75rem 1rem',
-              borderRadius: '0.5rem',
+              flex: 1,
+              padding: '0.85rem',
+              borderRadius: '0.75rem',
               border: '1px solid #334155',
-              backgroundColor: '#1e293b',
+              backgroundColor: activeTab === 'SECTORES' ? '#0284c7' : '#1e293b',
               color: '#fff',
-              outline: 'none',
+              fontWeight: '700',
+              cursor: 'pointer',
               fontSize: '0.95rem'
             }}
-          />
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value as any)}
-            style={{
-              padding: '0.75rem',
-              borderRadius: '0.5rem',
-              border: '1px solid #334155',
-              backgroundColor: '#1e293b',
-              color: '#cbd5e1',
-              outline: 'none'
-            }}
           >
-            <option value="UX">UX</option>
-            <option value="Dev">Dev</option>
-            <option value="General">General</option>
-          </select>
-          <button
-            type="submit"
-            style={{
-              backgroundColor: '#0284c7',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '0.5rem',
-              padding: '0.75rem 1.25rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'background-color 0.2s'
-            }}
-          >
-            + Agregar
+            🧹 Monitoreo de Sectores (Tráfico)
           </button>
-        </form>
-
-        {/* Filters */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>Filtrar:</span>
-          {(['All', 'UX', 'Dev', 'General'] as const).map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              style={{
-                backgroundColor: filter === cat ? '#38bdf8' : '#1e293b',
-                color: filter === cat ? '#0f172a' : '#cbd5e1',
-                border: '1px solid #334155',
-                borderRadius: '0.375rem',
-                padding: '0.25rem 0.65rem',
-                fontSize: '0.8rem',
-                fontWeight: filter === cat ? '700' : '400',
-                cursor: 'pointer'
-              }}
-            >
-              {cat}
-            </button>
-          ))}
+          <button
+            onClick={() => setActiveTab('INSUMOS')}
+            style={{
+              flex: 1,
+              padding: '0.85rem',
+              borderRadius: '0.75rem',
+              border: '1px solid #334155',
+              backgroundColor: activeTab === 'INSUMOS' ? '#0284c7' : '#1e293b',
+              color: '#fff',
+              fontWeight: '700',
+              cursor: 'pointer',
+              fontSize: '0.95rem'
+            }}
+          >
+            ☕ Insumos & Stock
+          </button>
         </div>
 
-        {/* Task List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {filteredTasks.length === 0 ? (
-            <p style={{ textAlign: 'center', color: '#64748b', padding: '2rem 0' }}>No hay tareas registradas en esta categoría.</p>
-          ) : (
-            filteredTasks.map(task => (
+        {/* PESTAÑA 1: SECTORES / ALERTAS DE TRÁFICO */}
+        {activeTab === 'SECTORES' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ backgroundColor: '#1e293b', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #334155' }}>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8' }}>
+                <strong>Lógica del sistema:</strong> Las alertas se activan automáticamente cuando el flujo acumulado de clientes supera el umbral crítico por sector.
+              </p>
+            </div>
+
+            {zones.map(zone => (
               <div
-                key={task.id}
+                key={zone.id}
                 style={{
+                  backgroundColor: '#1e293b',
+                  padding: '1.25rem 1.5rem',
+                  borderRadius: '1rem',
+                  border: `2px solid ${zone.status === 'CRÍTICO' ? '#ef4444' : '#334155'}`,
                   display: 'flex',
-                  alignItems: 'center',
                   justifyContent: 'space-between',
-                  backgroundColor: task.completed ? 'rgba(30, 41, 59, 0.5)' : '#1e293b',
-                  padding: '0.85rem 1rem',
-                  borderRadius: '0.5rem',
-                  border: '1px solid #334155',
-                  transition: 'all 0.2s ease'
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '1rem'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => toggleTask(task.id)}
-                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-                  />
-                  <span style={{
-                    textDecoration: task.completed ? 'line-through' : 'none',
-                    color: task.completed ? '#64748b' : '#f8fafc',
-                    fontSize: '0.95rem'
-                  }}>
-                    {task.text}
-                  </span>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.1rem' }}>{zone.name}</h3>
+                    <span style={{
+                      backgroundColor: zone.status === 'CRÍTICO' ? 'rgba(239, 68, 68, 0.2)' : 'rgba(34, 197, 94, 0.2)',
+                      color: zone.status === 'CRÍTICO' ? '#f87171' : '#4ade80',
+                      padding: '0.15rem 0.5rem',
+                      borderRadius: '0.375rem',
+                      fontSize: '0.75rem',
+                      fontWeight: '800'
+                    }}>
+                      {zone.status === 'CRÍTICO' ? '⚠️ NECESITA LIMPIEZA' : '✓ OK'}
+                    </span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8' }}>
+                    Flujo de tráfico: <strong>{zone.peopleCount}</strong> / {zone.threshold} personas
+                  </p>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{
-                    fontSize: '0.7rem',
-                    padding: '0.15rem 0.4rem',
-                    borderRadius: '0.25rem',
-                    backgroundColor: task.category === 'UX' ? 'rgba(168, 85, 247, 0.2)' : task.category === 'Dev' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(107, 114, 128, 0.2)',
-                    color: task.category === 'UX' ? '#c084fc' : task.category === 'Dev' ? '#60a5fa' : '#9ca3af',
-                    fontWeight: '600'
-                  }}>
-                    {task.category}
-                  </span>
+
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                   <button
-                    onClick={() => deleteTask(task.id)}
+                    onClick={() => simulateTraffic(zone.id, 10)}
                     style={{
-                      background: 'none',
+                      backgroundColor: '#334155',
+                      color: '#cbd5e1',
                       border: 'none',
-                      color: '#ef4444',
-                      cursor: 'pointer',
-                      fontSize: '1rem',
-                      opacity: 0.7
+                      padding: '0.5rem 0.75rem',
+                      borderRadius: '0.5rem',
+                      fontSize: '0.8rem',
+                      cursor: 'pointer'
                     }}
-                    title="Eliminar tarea"
                   >
-                    ✕
+                    +10 Clientes (Simular)
                   </button>
+                  {zone.status === 'CRÍTICO' && (
+                    <button
+                      onClick={() => resetZone(zone.id)}
+                      style={{
+                        backgroundColor: '#22c55e',
+                        color: '#0f172a',
+                        border: 'none',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '0.5rem',
+                        fontWeight: '800',
+                        fontSize: '0.85rem',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      ✓ Limpieza Completada
+                    </button>
+                  )}
                 </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
+
+        {/* PESTAÑA 2: INSUMOS_STOCK */}
+        {activeTab === 'INSUMOS' && (
+          <div style={{ backgroundColor: '#1e293b', borderRadius: '1rem', padding: '1.25rem', border: '1px solid #334155' }}>
+            <h2 style={{ fontSize: '1.1rem', margin: '0 0 1rem 0' }}>Estado y Reposición de Insumos</h2>
+            
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #334155', color: '#94a3b8', fontSize: '0.85rem' }}>
+                    <th style={{ padding: '0.75rem' }}>Insumo</th>
+                    <th style={{ padding: '0.75rem' }}>Stock Estimado %</th>
+                    <th style={{ padding: '0.75rem' }}>Estado</th>
+                    <th style={{ padding: '0.75rem' }}>Sugerencia</th>
+                    <th style={{ padding: '0.75rem', textAlign: 'center' }}>Ajuste</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {supplies.map(supply => {
+                    const info = getStockStatus(supply.stockPercentage);
+                    return (
+                      <tr key={supply.id} style={{ borderBottom: '1px solid #334155', fontSize: '0.9rem' }}>
+                        <td style={{ padding: '0.85rem 0.75rem', fontWeight: '600' }}>{supply.name}</td>
+                        <td style={{ padding: '0.85rem 0.75rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span>{supply.stockPercentage}%</span>
+                            <div style={{ width: '60px', height: '6px', backgroundColor: '#334155', borderRadius: '3px' }}>
+                              <div style={{ width: `${supply.stockPercentage}%`, height: '100%', backgroundColor: info.color, borderRadius: '3px' }} />
+                            </div>
+                          </div>
+                        </td>
+                        <td style={{ padding: '0.85rem 0.75rem', fontWeight: '700', color: info.color }}>
+                          {info.status}
+                        </td>
+                        <td style={{ padding: '0.85rem 0.75rem', fontSize: '0.85rem' }}>
+                          {info.action}
+                        </td>
+                        <td style={{ padding: '0.85rem 0.75rem', textAlign: 'center' }}>
+                          <button
+                            onClick={() => updateStock(supply.id, -20)}
+                            style={{ backgroundColor: '#334155', color: '#fff', border: 'none', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', marginRight: '0.25rem', cursor: 'pointer' }}
+                          >
+                            -20%
+                          </button>
+                          <button
+                            onClick={() => updateStock(supply.id, 50)}
+                            style={{ backgroundColor: '#0284c7', color: '#fff', border: 'none', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', cursor: 'pointer' }}
+                          >
+                            +50%
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );
