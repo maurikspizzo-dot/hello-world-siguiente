@@ -35,65 +35,62 @@ export default function Home() {
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#f3f4f6',
-      fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: '#1f2937',
-      paddingBottom: '30px'
+      fontFamily: "system-ui, -apple-system, sans-serif",
+      color: '#111827',
+      paddingBottom: '80px',
+      colorScheme: 'light'
     }}>
-      {/* Header Mobile Adaptativo */}
+      {/* Header Corporativo YPF */}
       <header style={{
-        background: 'linear-gradient(135deg, #002b5c 0%, #00529b 100%)',
+        backgroundColor: '#002b5c',
         color: '#ffffff',
-        padding: '16px 16px 20px 16px',
+        padding: '16px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
           <span style={{
             backgroundColor: '#00a3e0',
+            color: '#ffffff',
             padding: '4px 8px',
             borderRadius: '4px',
             fontWeight: '900',
-            fontSize: '11px',
-            letterSpacing: '0.5px'
+            fontSize: '11px'
           }}>YPF FULL</span>
-          <h1 style={{ margin: 0, fontSize: '18px', fontWeight: '700' }}>Smart Maintenance</h1>
+          <h1 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#ffffff' }}>Smart Maintenance</h1>
         </div>
-        <p style={{ margin: '0 0 14px 0', opacity: 0.85, fontSize: '12px' }}>
+        <p style={{ margin: '0 0 12px 0', opacity: 0.9, fontSize: '12px', color: '#e5e7eb' }}>
           Service Design & Tablero Operativo
         </p>
 
-        {/* KPIs compactos para celulares */}
+        {/* Resumen KPIs */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
           <div style={{
-            backgroundColor: sectoresCriticos > 0 ? 'rgba(239, 68, 68, 0.25)' : 'rgba(16, 185, 129, 0.25)',
+            backgroundColor: sectoresCriticos > 0 ? '#7f1d1d' : '#064e3b',
             border: sectoresCriticos > 0 ? '1px solid #ef4444' : '1px solid #10b981',
             padding: '6px 10px',
             borderRadius: '6px',
             textAlign: 'center'
           }}>
-            <span style={{ display: 'block', fontSize: '10px', opacity: 0.9 }}>Limpieza</span>
-            <strong style={{ fontSize: '14px', color: sectoresCriticos > 0 ? '#fca5a5' : '#6ee7b7' }}>
-              {sectoresCriticos} Críticos
-            </strong>
+            <span style={{ display: 'block', fontSize: '10px', color: '#f3f4f6' }}>Limpieza</span>
+            <strong style={{ fontSize: '13px', color: '#ffffff' }}>{sectoresCriticos} Críticos</strong>
           </div>
           <div style={{
-            backgroundColor: insumosCriticos > 0 ? 'rgba(239, 68, 68, 0.25)' : 'rgba(16, 185, 129, 0.25)',
+            backgroundColor: insumosCriticos > 0 ? '#7f1d1d' : '#064e3b',
             border: insumosCriticos > 0 ? '1px solid #ef4444' : '1px solid #10b981',
             padding: '6px 10px',
             borderRadius: '6px',
             textAlign: 'center'
           }}>
-            <span style={{ display: 'block', fontSize: '10px', opacity: 0.9 }}>Insumos</span>
-            <strong style={{ fontSize: '14px', color: insumosCriticos > 0 ? '#fca5a5' : '#6ee7b7' }}>
-              {insumosCriticos} Críticos
-            </strong>
+            <span style={{ display: 'block', fontSize: '10px', color: '#f3f4f6' }}>Insumos</span>
+            <strong style={{ fontSize: '13px', color: '#ffffff' }}>{insumosCriticos} Críticos</strong>
           </div>
         </div>
       </header>
 
-      {/* Contenedor Adaptable */}
-      <main style={{ padding: '16px', maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Contenido Principal */}
+      <main style={{ padding: '16px', maxWidth: '800px', margin: '0 auto' }}>
         
-        {/* Pestañas Táctiles Rápida Selección */}
+        {/* Pestañas de Selección */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
@@ -105,15 +102,14 @@ export default function Home() {
           <button
             onClick={() => setActiveTab('limpieza')}
             style={{
-              padding: '10px 8px',
+              padding: '10px',
               border: 'none',
               borderRadius: '6px',
-              backgroundColor: activeTab === 'limpieza' ? '#ffffff' : 'transparent',
-              color: activeTab === 'limpieza' ? '#00529b' : '#4b5563',
-              fontWeight: activeTab === 'limpieza' ? '700' : '500',
+              backgroundColor: activeTab === 'limpieza' ? '#00529b' : 'transparent',
+              color: activeTab === 'limpieza' ? '#ffffff' : '#374151',
+              fontWeight: '700',
               cursor: 'pointer',
-              fontSize: '13px',
-              boxShadow: activeTab === 'limpieza' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+              fontSize: '13px'
             }}
           >
             🧹 Limpieza
@@ -121,15 +117,14 @@ export default function Home() {
           <button
             onClick={() => setActiveTab('insumos')}
             style={{
-              padding: '10px 8px',
+              padding: '10px',
               border: 'none',
               borderRadius: '6px',
-              backgroundColor: activeTab === 'insumos' ? '#ffffff' : 'transparent',
-              color: activeTab === 'insumos' ? '#00529b' : '#4b5563',
-              fontWeight: activeTab === 'insumos' ? '700' : '500',
+              backgroundColor: activeTab === 'insumos' ? '#00529b' : 'transparent',
+              color: activeTab === 'insumos' ? '#ffffff' : '#374151',
+              fontWeight: '700',
               cursor: 'pointer',
-              fontSize: '13px',
-              boxShadow: activeTab === 'insumos' ? '0 1px 3px rgba(0,0,0,0.1)' : 'none'
+              fontSize: '13px'
             }}
           >
             📦 Insumos
@@ -139,7 +134,10 @@ export default function Home() {
         {/* Mantenimiento / Limpieza */}
         {activeTab === 'limpieza' && (
           <section>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+            <h2 style={{ fontSize: '16px', color: '#111827', margin: '0 0 14px 0', fontWeight: '800' }}>
+              Sectores de Limpieza (Tráfico)
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {sectores.map(s => {
                 const esCritico = s.flujo >= 50;
                 return (
@@ -147,46 +145,48 @@ export default function Home() {
                     backgroundColor: '#ffffff',
                     borderRadius: '10px',
                     padding: '16px',
-                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.05)',
-                    borderLeft: esCritico ? '5px solid #ef4444' : '5px solid #10b981'
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)',
+                    borderLeft: esCritico ? '6px solid #dc2626' : '6px solid #16a34a'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1f2937' }}>{s.nombre}</h3>
+                      <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#111827' }}>{s.nombre}</h3>
                       <span style={{
-                        backgroundColor: esCritico ? '#fee2e2' : '#d1fae5',
-                        color: esCritico ? '#991b1b' : '#065f46',
-                        padding: '3px 6px',
+                        backgroundColor: esCritico ? '#fee2e2' : '#dcfce7',
+                        color: esCritico ? '#991b1b' : '#166534',
+                        padding: '3px 8px',
                         borderRadius: '4px',
-                        fontSize: '10px',
-                        fontWeight: '700'
+                        fontSize: '11px',
+                        fontWeight: '800'
                       }}>
                         {esCritico ? 'CRÍTICO' : 'OK'}
                       </span>
                     </div>
 
-                    <div style={{ backgroundColor: '#f9fafb', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px' }}>
-                        <span style={{ color: '#4b5563' }}>Tráfico:</span>
-                        <strong>{s.flujo} / 50 pers.</strong>
+                    <div style={{ backgroundColor: '#f3f4f6', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px', color: '#374151' }}>
+                        <span>Tráfico acumulado:</span>
+                        <strong style={{ color: '#111827' }}>{s.flujo} / 50 pers.</strong>
                       </div>
-                      <div style={{ width: '100%', height: '6px', backgroundColor: '#e5e7eb', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ width: '100%', height: '8px', backgroundColor: '#d1d5db', borderRadius: '4px', overflow: 'hidden' }}>
                         <div style={{
                           width: `${Math.min((s.flujo / 50) * 100, 100)}%`,
                           height: '100%',
-                          backgroundColor: esCritico ? '#ef4444' : '#00a3e0'
+                          backgroundColor: esCritico ? '#dc2626' : '#00a3e0'
                         }}></div>
                       </div>
                     </div>
 
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '12px' }}>
-                      <p style={{ margin: '2px 0' }}>🕒 Última limpieza: <strong>{s.ultimaLimpieza}</strong></p>
-                      <p style={{ margin: '2px 0' }}>👤 Responsable: <strong>{s.responsable}</strong></p>
-                    </div>
+                    <p style={{ margin: '2px 0', fontSize: '12px', color: '#4b5563' }}>
+                      🕒 Última limpieza: <strong style={{ color: '#111827' }}>{s.ultimaLimpieza}</strong>
+                    </p>
+                    <p style={{ margin: '2px 0 12px 0', fontSize: '12px', color: '#4b5563' }}>
+                      👤 Responsable: <strong style={{ color: '#111827' }}>{s.responsable}</strong>
+                    </p>
 
                     <button
                       onClick={() => resetSector(s.id)}
                       style={{
-                        backgroundColor: esCritico ? '#ef4444' : '#00529b',
+                        backgroundColor: esCritico ? '#dc2626' : '#00529b',
                         color: '#ffffff',
                         border: 'none',
                         padding: '12px',
@@ -194,11 +194,10 @@ export default function Home() {
                         fontWeight: '700',
                         fontSize: '13px',
                         cursor: 'pointer',
-                        width: '100%',
-                        WebkitTapHighlightColor: 'transparent'
+                        width: '100%'
                       }}
                     >
-                      {esCritico ? '⚠️ Limpieza Realizada' : '✓ Registrar Limpieza'}
+                      {esCritico ? '⚠️ Confirmar Limpieza Realizada' : '✓ Registrar Limpieza'}
                     </button>
                   </div>
                 );
@@ -210,7 +209,10 @@ export default function Home() {
         {/* Control de Insumos */}
         {activeTab === 'insumos' && (
           <section>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '14px' }}>
+            <h2 style={{ fontSize: '16px', color: '#111827', margin: '0 0 14px 0', fontWeight: '800' }}>
+              Control de Insumos
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {insumos.map(i => {
                 const esCritico = i.stock < 25;
                 return (
@@ -218,45 +220,45 @@ export default function Home() {
                     backgroundColor: '#ffffff',
                     borderRadius: '10px',
                     padding: '16px',
-                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.05)',
-                    borderLeft: esCritico ? '5px solid #ef4444' : '5px solid #10b981'
+                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.08)',
+                    borderLeft: esCritico ? '6px solid #dc2626' : '6px solid #16a34a'
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1f2937' }}>{i.nombre}</h3>
+                      <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#111827' }}>{i.nombre}</h3>
                       <span style={{
-                        backgroundColor: esCritico ? '#fee2e2' : '#d1fae5',
-                        color: esCritico ? '#991b1b' : '#065f46',
-                        padding: '3px 6px',
+                        backgroundColor: esCritico ? '#fee2e2' : '#dcfce7',
+                        color: esCritico ? '#991b1b' : '#166534',
+                        padding: '3px 8px',
                         borderRadius: '4px',
-                        fontSize: '10px',
-                        fontWeight: '700'
+                        fontSize: '11px',
+                        fontWeight: '800'
                       }}>
                         {esCritico ? 'REPOSICIÓN' : 'OK'}
                       </span>
                     </div>
 
-                    <div style={{ backgroundColor: '#f9fafb', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px' }}>
-                        <span style={{ color: '#4b5563' }}>Disponibilidad:</span>
-                        <strong>{i.stock}%</strong>
+                    <div style={{ backgroundColor: '#f3f4f6', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px', color: '#374151' }}>
+                        <span>Disponibilidad:</span>
+                        <strong style={{ color: '#111827' }}>{i.stock}%</strong>
                       </div>
-                      <div style={{ width: '100%', height: '6px', backgroundColor: '#e5e7eb', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div style={{ width: '100%', height: '8px', backgroundColor: '#d1d5db', borderRadius: '4px', overflow: 'hidden' }}>
                         <div style={{
                           width: `${i.stock}%`,
                           height: '100%',
-                          backgroundColor: esCritico ? '#ef4444' : '#10b981'
+                          backgroundColor: esCritico ? '#dc2626' : '#16a34a'
                         }}></div>
                       </div>
                     </div>
 
-                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#6b7280' }}>
-                      🎯 Lote sugerido: <strong>{i.nivelOptimo}</strong>
+                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#4b5563' }}>
+                      🎯 Lote sugerido: <strong style={{ color: '#111827' }}>{i.nivelOptimo}</strong>
                     </p>
 
                     <button
                       onClick={() => reponerInsumo(i.id)}
                       style={{
-                        backgroundColor: '#10b981',
+                        backgroundColor: '#16a34a',
                         color: '#ffffff',
                         border: 'none',
                         padding: '12px',
@@ -264,8 +266,7 @@ export default function Home() {
                         fontWeight: '700',
                         fontSize: '13px',
                         cursor: 'pointer',
-                        width: '100%',
-                        WebkitTapHighlightColor: 'transparent'
+                        width: '100%'
                       }}
                     >
                       📦 Marcar Repuesto (100%)
