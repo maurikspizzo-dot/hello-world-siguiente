@@ -74,7 +74,7 @@ export default function SmartFullDashboard() {
   return (
     <div style={{
       minHeight: '100vh',
-      backgroundColor: '#0a0f1d',
+      backgroundColor: '#001a4d',
       color: '#f8fafc',
       fontFamily: 'system-ui, -apple-system, sans-serif',
       padding: '2rem 1rem'
