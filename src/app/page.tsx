@@ -86,10 +86,10 @@ export default function SmartFullDashboard() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: '#1e293b',
+          backgroundColor: '#002b80',
           padding: '1.25rem 1.5rem',
           borderRadius: '1rem',
-          border: '1px solid #334155',
+          border: '1px solid #0052cc',
           marginBottom: '1.5rem'
         }}>
           <div>
@@ -101,7 +101,7 @@ export default function SmartFullDashboard() {
             </h1>
           </div>
           <span style={{
-            backgroundColor: '#0284c7',
+            backgroundColor: '#0052cc',
             padding: '0.4rem 0.8rem',
             borderRadius: '0.5rem',
             fontSize: '0.8rem',
@@ -119,8 +119,8 @@ export default function SmartFullDashboard() {
               flex: 1,
               padding: '0.85rem',
               borderRadius: '0.75rem',
-              border: '1px solid #334155',
-              backgroundColor: activeTab === 'SECTORES' ? '#0284c7' : '#1e293b',
+              border: '1px solid #0052cc',
+              backgroundColor: activeTab === 'SECTORES' ? '#0052cc' : '#002b80',
               color: '#fff',
               fontWeight: '700',
               cursor: 'pointer',
@@ -135,8 +135,8 @@ export default function SmartFullDashboard() {
               flex: 1,
               padding: '0.85rem',
               borderRadius: '0.75rem',
-              border: '1px solid #334155',
-              backgroundColor: activeTab === 'INSUMOS' ? '#0284c7' : '#1e293b',
+              border: '1px solid #0052cc',
+              backgroundColor: activeTab === 'INSUMOS' ? '#0052cc' : '#002b80',
               color: '#fff',
               fontWeight: '700',
               cursor: 'pointer',
@@ -150,7 +150,7 @@ export default function SmartFullDashboard() {
         {/* PESTAÑA 1: SECTORES / ALERTAS DE TRÁFICO */}
         {activeTab === 'SECTORES' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ backgroundColor: '#1e293b', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #334155' }}>
+            <div style={{ backgroundColor: '#002b80', padding: '1rem', borderRadius: '0.75rem', border: '1px solid #0052cc' }}>
               <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8' }}>
                 <strong>Lógica del sistema:</strong> Las alertas se activan automáticamente cuando el flujo acumulado de clientes supera el umbral crítico por sector.
               </p>
@@ -160,10 +160,10 @@ export default function SmartFullDashboard() {
               <div
                 key={zone.id}
                 style={{
-                  backgroundColor: '#1e293b',
+                  backgroundColor: '#002b80',
                   padding: '1.25rem 1.5rem',
                   borderRadius: '1rem',
-                  border: `2px solid ${zone.status === 'CRÍTICO' ? '#ef4444' : '#334155'}`,
+                  border: `2px solid ${zone.status === 'CRÍTICO' ? '#ef4444' : '#0052cc'}`,
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
@@ -194,9 +194,9 @@ export default function SmartFullDashboard() {
                   <button
                     onClick={() => simulateTraffic(zone.id, 10)}
                     style={{
-                      backgroundColor: '#334155',
+                      backgroundColor: '#001a4d',
                       color: '#cbd5e1',
-                      border: 'none',
+                      border: '1px solid #0052cc',
                       padding: '0.5rem 0.75rem',
                       borderRadius: '0.5rem',
                       fontSize: '0.8rem',
@@ -230,13 +230,13 @@ export default function SmartFullDashboard() {
 
         {/* PESTAÑA 2: INSUMOS_STOCK */}
         {activeTab === 'INSUMOS' && (
-          <div style={{ backgroundColor: '#1e293b', borderRadius: '1rem', padding: '1.25rem', border: '1px solid #334155' }}>
+          <div style={{ backgroundColor: '#002b80', borderRadius: '1rem', padding: '1.25rem', border: '1px solid #0052cc' }}>
             <h2 style={{ fontSize: '1.1rem', margin: '0 0 1rem 0' }}>Estado y Reposición de Insumos</h2>
             
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                 <thead>
-                  <tr style={{ borderBottom: '2px solid #334155', color: '#94a3b8', fontSize: '0.85rem' }}>
+                  <tr style={{ borderBottom: '2px solid #0052cc', color: '#94a3b8', fontSize: '0.85rem' }}>
                     <th style={{ padding: '0.75rem' }}>Insumo</th>
                     <th style={{ padding: '0.75rem' }}>Stock Estimado %</th>
                     <th style={{ padding: '0.75rem' }}>Estado</th>
@@ -248,12 +248,12 @@ export default function SmartFullDashboard() {
                   {supplies.map(supply => {
                     const info = getStockStatus(supply.stockPercentage);
                     return (
-                      <tr key={supply.id} style={{ borderBottom: '1px solid #334155', fontSize: '0.9rem' }}>
+                      <tr key={supply.id} style={{ borderBottom: '1px solid #0052cc', fontSize: '0.9rem' }}>
                         <td style={{ padding: '0.85rem 0.75rem', fontWeight: '600' }}>{supply.name}</td>
                         <td style={{ padding: '0.85rem 0.75rem' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <span>{supply.stockPercentage}%</span>
-                            <div style={{ width: '60px', height: '6px', backgroundColor: '#334155', borderRadius: '3px' }}>
+                            <div style={{ width: '60px', height: '6px', backgroundColor: '#001a4d', borderRadius: '3px' }}>
                               <div style={{ width: `${supply.stockPercentage}%`, height: '100%', backgroundColor: info.color, borderRadius: '3px' }} />
                             </div>
                           </div>
@@ -267,13 +267,13 @@ export default function SmartFullDashboard() {
                         <td style={{ padding: '0.85rem 0.75rem', textAlign: 'center' }}>
                           <button
                             onClick={() => updateStock(supply.id, -20)}
-                            style={{ backgroundColor: '#334155', color: '#fff', border: 'none', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', marginRight: '0.25rem', cursor: 'pointer' }}
+                            style={{ backgroundColor: '#001a4d', color: '#fff', border: '1px solid #0052cc', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', marginRight: '0.25rem', cursor: 'pointer' }}
                           >
                             -20%
                           </button>
                           <button
                             onClick={() => updateStock(supply.id, 50)}
-                            style={{ backgroundColor: '#0284c7', color: '#fff', border: 'none', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', cursor: 'pointer' }}
+                            style={{ backgroundColor: '#0052cc', color: '#fff', border: 'none', padding: '0.2rem 0.5rem', borderRadius: '0.25rem', cursor: 'pointer' }}
                           >
                             +50%
                           </button>
