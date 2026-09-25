@@ -37,18 +37,11 @@ export default function Home() {
       backgroundColor: '#f3f4f6',
       fontFamily: "system-ui, -apple-system, sans-serif",
       color: '#111827',
-      paddingBottom: '90px'
+      paddingBottom: '100px'
     }}>
-      <style>{`
-        * { box-sizing: border-box; }
-        body { background-color: #f3f4f6 !important; color: #111827 !important; margin: 0; }
-        h1, h2, h3, p, span, strong { color: inherit; }
-      `}</style>
-
       {/* Header Corporativo */}
       <header style={{
         backgroundColor: '#002b5c',
-        color: '#ffffff',
         padding: '16px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
       }}>
@@ -169,7 +162,7 @@ export default function Home() {
 
                     <div style={{ backgroundColor: '#f3f4f6', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px', color: '#374151' }}>
-                        <span>Tráfico acumulado:</span>
+                        <span style={{ color: '#374151' }}>Tráfico acumulado:</span>
                         <strong style={{ color: '#111827' }}>{s.flujo} / 50 pers.</strong>
                       </div>
                       <div style={{ width: '100%', height: '8px', backgroundColor: '#d1d5db', borderRadius: '4px', overflow: 'hidden' }}>
@@ -181,10 +174,10 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <p style={{ margin: '2px 0', fontSize: '12px', color: '#4b5563' }}>
+                    <p style={{ margin: '2px 0', fontSize: '12px', color: '#374151' }}>
                       🕒 Última limpieza: <strong style={{ color: '#111827' }}>{s.ultimaLimpieza}</strong>
                     </p>
-                    <p style={{ margin: '2px 0 12px 0', fontSize: '12px', color: '#4b5563' }}>
+                    <p style={{ margin: '2px 0 12px 0', fontSize: '12px', color: '#374151' }}>
                       👤 Responsable: <strong style={{ color: '#111827' }}>{s.responsable}</strong>
                     </p>
 
@@ -244,7 +237,7 @@ export default function Home() {
 
                     <div style={{ backgroundColor: '#f3f4f6', padding: '10px', borderRadius: '6px', marginBottom: '12px' }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '12px', color: '#374151' }}>
-                        <span>Disponibilidad:</span>
+                        <span style={{ color: '#374151' }}>Disponibilidad:</span>
                         <strong style={{ color: '#111827' }}>{i.stock}%</strong>
                       </div>
                       <div style={{ width: '100%', height: '8px', backgroundColor: '#d1d5db', borderRadius: '4px', overflow: 'hidden' }}>
@@ -256,7 +249,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#4b5563' }}>
+                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#374151' }}>
                       🎯 Lote sugerido: <strong style={{ color: '#111827' }}>{i.nivelOptimo}</strong>
                     </p>
 
